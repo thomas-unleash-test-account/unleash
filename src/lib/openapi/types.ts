@@ -20,13 +20,7 @@ export type CreateSchemaType<T> = FromSchema<
     {
         definitionsPath: 'components/schemas';
         deserialize: [
-            {
-                pattern: {
-                    type: 'string';
-                    format: 'date';
-                };
-                output: Date;
-            },
+            { pattern: { type: 'string'; format: 'date' }; output: Date },
         ];
     }
 >;
@@ -34,7 +28,6 @@ export type CreateSchemaType<T> = FromSchema<
 // Create an OpenAPIV3.SchemaObject from a const schema object.
 // Make sure the schema contains an object of refs for type generation.
 // Pass an empty 'components/schemas' object if there are no refs in the schema.
-// Note: The order of the refs must match the order they are present in the object
 export const createSchemaObject = <
     T extends { 'components/schemas': { [key: string]: object } },
 >(

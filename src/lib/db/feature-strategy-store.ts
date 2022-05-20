@@ -282,7 +282,9 @@ class FeatureStrategiesStore implements IFeatureStrategiesStore {
                     env.strategies = [];
                 }
                 if (r.strategy_id) {
-                    env.strategies.push(this.getAdminStrategy(r));
+                    env.strategies.push(
+                        FeatureStrategiesStore.getAdminStrategy(r),
+                    );
                 }
                 acc.environments[r.environment] = env;
                 return acc;
@@ -309,7 +311,7 @@ class FeatureStrategiesStore implements IFeatureStrategiesStore {
         );
     }
 
-    private getEnvironment(r: any): IEnvironmentOverview {
+    private static getEnvironment(r: any): IEnvironmentOverview {
         return {
             name: r.environment,
             enabled: r.enabled,
@@ -349,7 +351,7 @@ class FeatureStrategiesStore implements IFeatureStrategiesStore {
             const overview = rows.reduce((acc, r) => {
                 if (acc[r.feature_name] !== undefined) {
                     acc[r.feature_name].environments.push(
-                        this.getEnvironment(r),
+                        FeatureStrategiesStore.getEnvironment(r),
                     );
                 } else {
                     acc[r.feature_name] = {
@@ -358,7 +360,9 @@ class FeatureStrategiesStore implements IFeatureStrategiesStore {
                         createdAt: r.created_at,
                         lastSeenAt: r.last_seen_at,
                         stale: r.stale,
-                        environments: [this.getEnvironment(r)],
+                        environments: [
+                            FeatureStrategiesStore.getEnvironment(r),
+                        ],
                     };
                 }
                 return acc;
@@ -398,7 +402,7 @@ class FeatureStrategiesStore implements IFeatureStrategiesStore {
         return mapRow(row[0]);
     }
 
-    private getAdminStrategy(
+    private static getAdminStrategy(
         r: any,
         includeId: boolean = true,
     ): IStrategyConfig {
